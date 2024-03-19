@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class FlightResource extends JsonResource
 {
-    protected string $dateTimeFormat = 'Y-m-d H:i';
+    protected const DATE_TIME_FORMAT = 'Y-m-d H:i';
     public function toArray(Request $request): array
     {
         /** @var Flight $flight */
@@ -25,12 +25,12 @@ class FlightResource extends JsonResource
             'departureDateTime' => $flight->departure_at
                 ->toImmutable()
                 ->setTimezone($flight->departureAirport->timezone)
-                ->format($this->dateTimeFormat),
+                ->format(self::DATE_TIME_FORMAT),
             'arrivalDateTime' => $flight->departure_at
                 ->toImmutable()
                 ->setTimezone($flight->arrivalAirport->timezone)
                 ->addMinutes($flight->duration)
-                ->format($this->dateTimeFormat),
+                ->format(self::DATE_TIME_FORMAT),
             'duration' => $flight->duration,
         ];
     }
